@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//              CREATING THE USERS TABLE
+//                   USERS TABLE
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
 const userSchema = new Schema(
   {

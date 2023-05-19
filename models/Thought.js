@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const reactionSchema = require("./Reaction");
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//              CREATING THE THOUGHT TABLE
+//                  THOUGHT TABLE
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
 const thoughtSchema = new Schema(
   {
