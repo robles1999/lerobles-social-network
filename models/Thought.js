@@ -23,12 +23,7 @@ const thoughtSchema = new Schema(
       required: true,
     },
     // These are like replies
-    reactions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Reaction",
-      },
-    ],
+    reactions: [reactionSchema],
   },
   //::::::::::::::::::::::::::::::::::::::::::::::::::::::
   //     PLACE HOLDER FOR VIRTUAL KEY `reactionCount`
