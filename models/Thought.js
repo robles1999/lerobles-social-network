@@ -23,6 +23,7 @@ const thoughtSchema = new Schema(
       required: true,
     },
     // These are like replies
+    // `reactions` will be receiving schemas
     reactions: [Reaction],
   },
   //::::::::::::::::::::::::::::::::::::::::::::::::::::::
