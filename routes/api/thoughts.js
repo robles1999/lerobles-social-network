@@ -14,10 +14,10 @@ const {
 //::::::::::::::::::::::::::::::::::::::::
 //      IMPORT ALL REACTION CONTROLLERS
 //::::::::::::::::::::::::::::::::::::::::
-// const {
-//   createReaction,
-//   deleteReaction,
-// } = require("../../controllers/reactionController");
+const {
+  createReaction,
+  deleteReaction,
+} = require("../../controllers/reactionController");
 
 // GET to get all thoughts
 router.get("/", getAllThoughts);
@@ -36,9 +36,9 @@ router.delete("/:id", deleteThoughtById);
 
 // POST to create a reaction stored in a single thought's
 // reactions array field;
-// router.post("/:thoughtId/reactions", createReaction);
+router.post("/:thoughtID/reactions", createReaction);
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
-// router.delete("/:thoughtId/reactions/:reactionId", deleteReaction);
+router.delete("/:thoughtID/reactions/:reactionID", deleteReaction);
 
 module.exports = router;

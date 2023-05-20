@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const reactionSchema = require("./Reaction");
+const Reaction = require("./Reaction");
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //                  THOUGHT TABLE
@@ -23,7 +23,7 @@ const thoughtSchema = new Schema(
       required: true,
     },
     // These are like replies
-    reactions: [reactionSchema],
+    reactions: [Reaction],
   },
   //::::::::::::::::::::::::::::::::::::::::::::::::::::::
   //     PLACE HOLDER FOR VIRTUAL KEY `reactionCount`

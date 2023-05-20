@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // This will not be a model, but rather will be used as 
@@ -8,7 +8,7 @@ const reactionSchema = new Schema(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId(),
+      default: () => new Types.ObjectId(),
     },
     reactionBody: {
       type: String,
@@ -25,7 +25,12 @@ const reactionSchema = new Schema(
       get: (timestamp) => timestamp.toLocaleString(), // Format the timestamp on query
     },
   },
-  { _id: false } // Disable generating a separate _id for each reaction subdocument
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
+  } 
 );
 
 module.exports = reactionSchema;
