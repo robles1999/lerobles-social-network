@@ -44,4 +44,47 @@ module.exports = {
       res.status(400).json({ message: "Error creating thought." });
     }
   },
+
+  //::::: PUT ROUTE => /api/thought/:id
+  async updateThoughtById(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body },
+        { new: true }
+      );
+
+      if (!thought) {
+        return res
+          .status(400)
+          .json({ message: "No thought found with this ID." });
+      }
+      res.json(thought);
+    } catch (err) {
+      res.status(400).json({ message: "Error updating thought." });
+    }
+  },
+
+  //::::: DELETE ROUTE => /api/thoughts/:id
+  async deleteThoughtById(req, res) {
+    try {
+      // Delete thought
+      const thought = await Thought.findOneAndDelete({ _id: req.params.id });
+
+      if (!thought) {
+        return res.status(400).json({ message: "No user thought with this ID." });
+      }
+
+      // Remove friend relationship on all friends
+      await User.updateMany(
+        { thoughts: req.params.id },
+        { $pull: { thoughts: req.params.id } },
+        { new: true }
+      );
+
+      res.json(thought);
+    } catch (err) {
+      res.status(400).json({ message: "Error deleting thought." });
+    }
+  },
 };

@@ -29,10 +29,10 @@ router.get("/:id", getThoughtById);
 router.post("/", createThought);
 
 // PUT to update a thought by its _id
-// router.put("/:id", updateThoughtById);
+router.put("/:id", updateThoughtById);
 
 // DELETE to remove a thought by its _id
-// router.delete("/:id", deleteThoughtById);
+router.delete("/:id", deleteThoughtById);
 
 // POST to create a reaction stored in a single thought's
 // reactions array field;
