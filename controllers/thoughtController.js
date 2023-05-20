@@ -10,6 +10,7 @@ module.exports = {
       res.status(400).json({ message: "Error getting all thoughts!!!", err });
     }
   },
+
   //::::: GET ROUTE => /api/thoughts/:id
   async getThoughtById(req, res) {
     try {
@@ -17,22 +18,22 @@ module.exports = {
       if (!thought) {
         return res
           .status(400)
-          .json({ message: "No thought found with this ID."});
+          .json({ message: "No thought found with this ID." });
       }
       res.json(thought);
     } catch (err) {
-      res
-        .status(400)
-        .json({ message: "Error getting thought."});
+      res.status(400).json({ message: "Error getting thought." });
     }
   },
+
   //::::: POST ROUTE => /api/thoughts
   async createThought(req, res) {
     try {
       // create a thought
       const thought = await Thought.create(req.body);
+      console.log(`Log thought++++++++++++++++++++++ ${thought}`);
 
-      // find the user and push the thought to the
+      // find the user and push the thought to his
       // thoughts array
       await User.findOneAndUpdate(
         { _id: req.body.userID },
@@ -40,7 +41,7 @@ module.exports = {
       );
       res.json(thought);
     } catch (err) {
-      res.status(400).json({ message: "Error creating thought."});
+      res.status(400).json({ message: "Error creating thought." });
     }
   },
 };

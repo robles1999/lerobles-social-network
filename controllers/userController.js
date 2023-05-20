@@ -54,10 +54,19 @@ module.exports = {
   //::::: DELETE ROUTE => /api/users/:id
   async deleteUser(req, res) {
     try {
+      // Delete user
       const user = await User.findOneAndDelete({ _id: req.params.id });
       if (!user) {
         return res.status(400).json({ message: "No user found with this ID." });
       }
+
+      // Remove friend relationship on all friends
+      await User.updateMany(
+        { friends: req.params.id },
+        { $pull: { friends: req.params.id } },
+        { new: true }
+      );
+
       res.json(user);
     } catch (err) {
       res.status(400).json({ message: "Error deleting user." });
