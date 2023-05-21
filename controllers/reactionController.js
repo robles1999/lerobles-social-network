@@ -40,7 +40,7 @@ module.exports = {
           .json({ message: "No reaction found with this ID." });
       }
 
-      res.json({ message: "Reaction deleted successfully." });
+      res.json({ message: "Reaction deleted successfully.", thought });
     } catch (err) {
       res.status(400).json({ message: "Error deleting reaction.", err });
     }

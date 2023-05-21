@@ -5,7 +5,7 @@ module.exports = {
   async getAllUsers(req, res) {
     try {
       const users = await User.find();
-      res.json(users);
+      res.json({ message: "All users.", users });
     } catch (err) {
       res.status(400).json({ message: "Error getting all users." });
     }
@@ -18,7 +18,7 @@ module.exports = {
       if (!user) {
         return res.status(400).json({ message: "No user found with this ID." });
       }
-      res.json(user);
+      res.json({ message: "User found!", user });
     } catch (err) {
       res.status(400).json({ message: "Error getting user." });
     }
@@ -28,7 +28,7 @@ module.exports = {
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
-      res.json(user);
+      res.json({ message: "User successfully added !", user });
     } catch (err) {
       res.status(400).json({ message: "Error creating user." });
     }
@@ -45,7 +45,7 @@ module.exports = {
       if (!user) {
         return res.status(400).json({ message: "No user found with this ID." });
       }
-      res.json(user);
+      res.json({ message: "User successfully updated.", user });
     } catch (err) {
       res.status(400).json({ message: "Error updating user." });
     }
@@ -67,7 +67,10 @@ module.exports = {
         { new: true }
       );
 
-      res.json(user);
+      // Delete all thoughts in user thoughts array
+      await Thought.deleteMany({ _id: { $in: user.thoughts } });
+
+      res.json({ message: "User and associated thoughts deleted!", user });
     } catch (err) {
       res.status(400).json({ message: "Error deleting user." });
     }
@@ -82,7 +85,8 @@ module.exports = {
       // :::::::::::::::::::::::::::::::::::::::
       const user = await User.findByIdAndUpdate(
         { _id: req.params.userID },
-        { $push: { friends: req.params.friendID } }
+        { $push: { friends: req.params.friendID } },
+        { new: true }
       );
       if (!user) {
         return res.status(400).json({ message: "No user found with this ID." });
@@ -94,7 +98,8 @@ module.exports = {
       // :::::::::::::::::::::::::::::::::::::::::::::::::
       const friend = await User.findByIdAndUpdate(
         { _id: req.params.friendID },
-        { $push: { friends: req.params.userID } }
+        { $push: { friends: req.params.userID } },
+        { new: true }
       );
 
       if (!friend) {
@@ -103,7 +108,7 @@ module.exports = {
           .json({ message: "No friend found with this ID." });
       }
 
-      res.json({ message: "Added a new friend!" });
+      res.json({ message: "Added a new friend!", user, friend });
     } catch (err) {
       res.status(400).json({ message: "Error adding friend." });
     }
@@ -117,7 +122,8 @@ module.exports = {
       // :::::::::::::::::::::::::::::::::::::::
       const user = await User.findByIdAndUpdate(
         { _id: req.params.userID },
-        { $pull: { friends: req.params.friendID } }
+        { $pull: { friends: req.params.friendID } },
+        { new: true }
       );
       if (!user) {
         return res.status(400).json({ message: "No user found with this ID!" });
@@ -129,14 +135,15 @@ module.exports = {
       // :::::::::::::::::::::::::::::::::::::::::::::::::
       const friend = await User.findByIdAndUpdate(
         { _id: req.params.friendID },
-        { $pull: { friends: req.params.userID } }
+        { $pull: { friends: req.params.userID } },
+        { new: true }
       );
 
       if (!friend) {
         return res.json({ message: "No friend found with this ID." });
       }
 
-      res.json({ message: "Lost a friend." });
+      res.json({ message: "Lost a friend.", user, friend });
     } catch (err) {
       res.status(400).json({ message: "Error removing friend." });
     }

@@ -5,7 +5,7 @@ module.exports = {
   async getAllThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
-      res.json(thoughts);
+      res.json({message: "All thoughts.", thoughts});
     } catch (err) {
       res.status(400).json({ message: "Error getting all thoughts!!!", err });
     }
@@ -20,7 +20,7 @@ module.exports = {
           .status(400)
           .json({ message: "No thought found with this ID." });
       }
-      res.json(thought);
+      res.json({message: "Thought found!", thought});
     } catch (err) {
       res.status(400).json({ message: "Error getting thought." });
     }
@@ -31,7 +31,6 @@ module.exports = {
     try {
       // create a thought
       const thought = await Thought.create(req.body);
-      console.log(`Log thought++++++++++++++++++++++ ${thought}`);
 
       // find the user and push the thought to his
       // thoughts array
@@ -39,7 +38,7 @@ module.exports = {
         { _id: req.body.userID },
         { $push: { thoughts: thought._id } }
       );
-      res.json(thought);
+      res.json({ message: "Thought created successfully!", thought });
     } catch (err) {
       res.status(400).json({ message: "Error creating thought." });
     }
@@ -59,7 +58,7 @@ module.exports = {
           .status(400)
           .json({ message: "No thought found with this ID." });
       }
-      res.json(thought);
+      res.json({ message: "Thought updated.", thought });
     } catch (err) {
       res.status(400).json({ message: "Error updating thought." });
     }
@@ -72,17 +71,19 @@ module.exports = {
       const thought = await Thought.findOneAndDelete({ _id: req.params.id });
 
       if (!thought) {
-        return res.status(400).json({ message: "No user thought with this ID." });
+        return res
+          .status(400)
+          .json({ message: "No user thought with this ID." });
       }
 
-      // Remove friend relationship on all friends
+      // Remove thought from user
       await User.updateMany(
         { thoughts: req.params.id },
         { $pull: { thoughts: req.params.id } },
         { new: true }
       );
 
-      res.json(thought);
+      res.json({ message: "Thought deleted successfully!", thought });
     } catch (err) {
       res.status(400).json({ message: "Error deleting thought." });
     }
