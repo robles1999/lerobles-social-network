@@ -107,3 +107,9 @@ To delete users, thoughts, reactions, or friend lists, follow these steps:
 4. Send the request.
 
 The response will indicate whether the deletion was successful.
+
+## Technologies
+- JavaScript
+- Node.js
+- Express.js
+- Mongoose
